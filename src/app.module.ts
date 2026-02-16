@@ -1,10 +1,27 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { Module } from "@nestjs/common";
+import { TypeOrmModule } from "@nestjs/typeorm";
+import { AppController } from "./app.controller";
 
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  // El 0.0.0.0 es la única "regla de oro" que mantenemos
-  await app.listen(process.env.PORT || 3000, '0.0.0.0');
-  console.log(`Application is running on: ${await app.getUrl()}`);
-}
-bootstrap();
+@Module({
+  imports: [
+    TypeOrmModule.forRoot({
+      type: "postgres",
+      // 👇 Aquí está la magia: Usamos la URL completa
+      url: process.env.DATABASE_URL,
+
+      // ⚠️ IMPORTANTE: Aunque uses URL, Neon EXIGE esto explícitamente en NestJS
+      ssl: true,
+      extra: {
+        ssl: {
+          rejectUnauthorized: false,
+        },
+      },
+
+      autoLoadEntities: true,
+      synchronize: true, // Crea las tablas automáticamente (solo para test)
+    }),
+  ],
+  controllers: [AppController],
+  providers: [],
+})
+export class AppModule {}
