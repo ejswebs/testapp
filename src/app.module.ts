@@ -1,9 +1,10 @@
 import { Module } from "@nestjs/common";
-import { TypeOrmModule } from "@nestjs/typeorm";
+//import { TypeOrmModule } from "@nestjs/typeorm";
 import { AppController } from "./app.controller";
 
 @Module({
   imports: [
+    /* 
     TypeOrmModule.forRoot({
       type: "postgres",
       // 👇 Aquí está la magia: Usamos la URL completa
@@ -19,7 +20,7 @@ import { AppController } from "./app.controller";
 
       autoLoadEntities: true,
       synchronize: true, // Crea las tablas automáticamente (solo para test)
-    }),
+    }), */
   ],
   controllers: [AppController],
   providers: [],

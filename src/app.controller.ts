@@ -1,9 +1,12 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get } from "@nestjs/common";
 
 @Controller()
 export class AppController {
   @Get()
   getHello(): string {
-    return '¡SI LEES ESTO, EL SERVIDOR FUNCIONA! Ahora podemos agregar la BD.';
+    return (
+      "¡SI LEES ESTO, EL SERVIDOR FUNCIONA! Ahora podemos agregar la BD." +
+      Date.now()
+    );
   }
 }
