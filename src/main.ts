@@ -1,19 +1,25 @@
 import { NestFactory } from '@nestjs/core';
-import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-app.useGlobalPipes(
+  app.enableCors(); // Permite peticiones desde cualquier frontend
+
+  // Validación Global de DTOs
+  app.useGlobalPipes(
     new ValidationPipe({
-      whitelist: true, // Elimina datos que no estén en el DTO
-      forbidNonWhitelisted: true, // Tira error si envían datos extra
-      transform: true, // Convierte tipos automáticamente
+      whitelist: true, // Borra campos que no estén en el DTO
+      forbidNonWhitelisted: true, // Lanza error si envían campos extra
+      transform: true,
     }),
   );
 
-  await app.listen(process.env.PORT || 3000, '0.0.0.0');
-  console.log(`Application is running on: ${await app.getUrl()}`);
+  // Escuchar en 0.0.0.0 es OBLIGATORIO para Hostinger
+  const port = process.env.PORT || 3000;
+  await app.listen(port, '0.0.0.0');
+  
+  console.log(`🚀 Servidor corriendo en puerto: ${port}`);
 }
 bootstrap();

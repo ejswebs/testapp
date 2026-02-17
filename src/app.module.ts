@@ -31,8 +31,8 @@ import { Message } from './message.entity';
 
     TypeOrmModule.forFeature([Message]),
     // 3. Tus módulos de funcionalidad (Descomenta los que tengas)
-    // AuthModule,
-    // UsersModule,
+     AuthModule,
+     UsersModule,
   ],
   controllers: [AppController],
   providers: [],
