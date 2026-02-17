@@ -5,12 +5,19 @@ import { AppController } from "./app.controller";
 import { Message } from "./message.entity";
 import { AuthModule } from "./auth/auth.module";
 import { UsersModule } from "./users/users.module";
+import { ServeStaticModule } from "@nestjs/serve-static";
+import { join } from "path";
 // Importa aquí tus otros módulos (AuthModule, UsersModule, etc.)
 
 @Module({
   imports: [
     // 1. Configuración global (por si la usas en otros lados)
     ConfigModule.forRoot({ isGlobal: true }),
+
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, "..", "client"), // Buscará en la carpeta /client de la raíz
+      exclude: ["/api/(.*)"], // No interferir con las rutas de la API
+    }),
 
     // 2. La conexión a BD que YA SABEMOS QUE FUNCIONA
     TypeOrmModule.forRoot({
