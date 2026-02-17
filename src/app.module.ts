@@ -2,7 +2,10 @@ import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ConfigModule } from "@nestjs/config";
 import { AppController } from "./app.controller";
-import { Message } from './message.entity';
+import { Message } from "./message.entity";
+import { ConfigModule } from "@nestjs/config";
+import { AuthModule } from "./auth/auth.module";
+import { UsersModule } from "./users/users.module";
 // Importa aquí tus otros módulos (AuthModule, UsersModule, etc.)
 
 @Module({
@@ -31,8 +34,8 @@ import { Message } from './message.entity';
 
     TypeOrmModule.forFeature([Message]),
     // 3. Tus módulos de funcionalidad (Descomenta los que tengas)
-     AuthModule,
-     UsersModule,
+    AuthModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [],
