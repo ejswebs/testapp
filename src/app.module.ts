@@ -1,25 +1,36 @@
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
+import { ConfigModule } from "@nestjs/config";
 import { AppController } from "./app.controller";
+// Importa aquí tus otros módulos (AuthModule, UsersModule, etc.)
 
 @Module({
   imports: [
-    /* TypeOrmModule.forRoot({
-      type: "postgres",
-      // 👇 Aquí está la magia: Usamos la URL completa
-      url: "postgresql://neondb_owner:npg_KiuWJZL08oRq@ep-square-smoke-ac66qced-pooler.sa-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
+    // 1. Configuración global (por si la usas en otros lados)
+    ConfigModule.forRoot({ isGlobal: true }),
 
-      // ⚠️ IMPORTANTE: Aunque uses URL, Neon EXIGE esto explícitamente en NestJS
+    // 2. La conexión a BD que YA SABEMOS QUE FUNCIONA
+    TypeOrmModule.forRoot({
+      type: "postgres",
+      // 👇 TRUCO: Usamos process.env directo para evitar problemas con ConfigService
+      // Asegúrate de tener la variable DATABASE_URL en Hostinger con el valor largo que probaste
+      url:
+        process.env.DATABASE_URL ||
+        "postgresql://neondb_owner:npg_KiuWJZL08oRq@ep-square-smoke-ac66qced-pooler.sa-east-1.aws.neon.tech/neondb?sslmode=require",
+
       ssl: true,
       extra: {
         ssl: {
           rejectUnauthorized: false,
         },
       },
-
       autoLoadEntities: true,
-      synchronize: true, // Crea las tablas automáticamente (solo para test)
-    }), */
+      synchronize: true, // ¡OJO! En producción ponlo en false cuando termines de desarrollar
+    }),
+
+    // 3. Tus módulos de funcionalidad (Descomenta los que tengas)
+    // AuthModule,
+    // UsersModule,
   ],
   controllers: [AppController],
   providers: [],
