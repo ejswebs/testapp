@@ -6,8 +6,11 @@ export class User {
   id: number;
 
   @Column({ unique: true })
-  username: string;
+  username: string; // Aquí guardaremos el email de Google
 
-  @Column()
-  password: string; // Aquí se guarda el hash encriptado
+  @Column({ nullable: true }) // 👈 CAMBIO: Ahora puede ser null para usuarios de Google
+  password: string;
+
+  @Column({ nullable: true }) // Opcional: Para saber si vino de google
+  googleId: string;
 }
