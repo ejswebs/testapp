@@ -3,7 +3,6 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { ConfigModule } from "@nestjs/config";
 import { AppController } from "./app.controller";
 import { Message } from "./message.entity";
-import { ConfigModule } from "@nestjs/config";
 import { AuthModule } from "./auth/auth.module";
 import { UsersModule } from "./users/users.module";
 // Importa aquí tus otros módulos (AuthModule, UsersModule, etc.)

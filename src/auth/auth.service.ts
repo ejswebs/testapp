@@ -1,5 +1,5 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
-import { UsersService } from '../users/users.service';
+import { UsersService } from '../users/users.services';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs'; // <--- ESTO EVITA EL ERROR 503
 
