@@ -1,9 +1,16 @@
 import { Controller, Post, Body, UnauthorizedException } from '@nestjs/common';
 import { AuthService } from './auth.service';
+import { IsString, IsNotEmpty, MinLength } from 'class-validator'; // 👈 1. IMPORTAR ESTO
 
-// DTO simple en línea para no crear otro archivo (puedes separarlo si quieres)
-class AuthDto {
+// 👇 2. AGREGAR DECORADORES AL DTO
+export class AuthDto {
+  @IsString()
+  @IsNotEmpty()
   username: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @MinLength(4) // Opcional: mínimo 4 caracteres para la pass
   password: string;
 }
 
