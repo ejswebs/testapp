@@ -1,37 +1,27 @@
-import { Controller, Post, Body, UnauthorizedException } from "@nestjs/common";
-import { AuthService } from "./auth/auth.service";
-import { IsString, IsNotEmpty, MinLength } from "class-validator"; // 👈 1. IMPORTAR ESTO
+import { NestFactory } from "@nestjs/core";
+import { AppModule } from "./app.module";
+import { ValidationPipe } from "@nestjs/common";
 
-// 👇 2. AGREGAR DECORADORES AL DTO
-export class AuthDto {
-  @IsString()
-  @IsNotEmpty()
-  username: string;
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
 
-  @IsString()
-  @IsNotEmpty()
-  @MinLength(4) // Opcional: mínimo 4 caracteres para la pass
-  password: string;
+  app.enableCors(); // Permite peticiones desde cualquier frontend
+
+  app.setGlobalPrefix("api");
+
+  // Validación Global de DTOs
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true, // Borra campos que no estén en el DTO
+      forbidNonWhitelisted: true, // Lanza error si envían campos extra
+      transform: true,
+    }),
+  );
+
+  // Escuchar en 0.0.0.0 es OBLIGATORIO para Hostinger
+  const port = process.env.PORT || 3000;
+  await app.listen(port, "0.0.0.0");
+
+  console.log(`🚀 Servidor corriendo en puerto: ${port}`);
 }
-
-@Controller("auth")
-export class AuthController {
-  constructor(private authService: AuthService) {}
-
-  @Post("login")
-  async login(@Body() body: AuthDto) {
-    const user = await this.authService.validateUser(
-      body.username,
-      body.password,
-    );
-    if (!user) {
-      throw new UnauthorizedException("Credenciales incorrectas");
-    }
-    return this.authService.login(user);
-  }
-
-  @Post("register")
-  async register(@Body() body: AuthDto) {
-    return this.authService.register(body);
-  }
-}
+bootstrap();
