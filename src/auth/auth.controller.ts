@@ -11,6 +11,7 @@ import {
 import { AuthGuard } from "@nestjs/passport";
 import { AuthService } from "./auth.service";
 import { Response } from "express"; // Importar Response de express
+import { IsString, IsNotEmpty, MinLength } from "class-validator";
 
 // 👇 2. AGREGAR DECORADORES AL DTO
 export class AuthDto {
