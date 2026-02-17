@@ -1,6 +1,6 @@
-import { Controller, Post, Body, UnauthorizedException } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { IsString, IsNotEmpty, MinLength } from 'class-validator'; // 👈 1. IMPORTAR ESTO
+import { Controller, Post, Body, UnauthorizedException } from "@nestjs/common";
+import { AuthService } from "./auth/auth.service";
+import { IsString, IsNotEmpty, MinLength } from "class-validator"; // 👈 1. IMPORTAR ESTO
 
 // 👇 2. AGREGAR DECORADORES AL DTO
 export class AuthDto {
@@ -14,20 +14,23 @@ export class AuthDto {
   password: string;
 }
 
-@Controller('auth')
+@Controller("auth")
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  @Post('login')
+  @Post("login")
   async login(@Body() body: AuthDto) {
-    const user = await this.authService.validateUser(body.username, body.password);
+    const user = await this.authService.validateUser(
+      body.username,
+      body.password,
+    );
     if (!user) {
-      throw new UnauthorizedException('Credenciales incorrectas');
+      throw new UnauthorizedException("Credenciales incorrectas");
     }
     return this.authService.login(user);
   }
 
-  @Post('register')
+  @Post("register")
   async register(@Body() body: AuthDto) {
     return this.authService.register(body);
   }
