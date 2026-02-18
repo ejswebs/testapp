@@ -14,7 +14,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, "google") {
         "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",
       callbackURL:
         process.env.GOOGLE_CALLBACK_URL ||
-        "https://green-loris-138701.hostingersite.com/api/auth/google/redirect", // Ej: https://tudominio.com/api/auth/google/callback
+        "https://green-loris-138701.hostingersite.com/api/auth/google/callback", // Ej: https://tudominio.com/api/auth/google/callback
       scope: ["email", "profile"],
     });
   }
