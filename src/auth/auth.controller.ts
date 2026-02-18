@@ -66,6 +66,6 @@ export class AuthController {
     // 👇 MAGIA: Redirigimos al Frontend con el token en la URL
     // En producción usa tu dominio real, en local localhost
     // Puedes usar una variable de entorno para esto: FRONTEND_URL
-    res.redirect(`/?token=${jwt.access_token}`);
+    res.redirect(`/login?token=${jwt.access_token}`);
   }
 }
