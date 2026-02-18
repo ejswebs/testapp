@@ -4,11 +4,12 @@ import { Group } from "./entities/group.entity";
 import { Category } from "./entities/category.entity";
 import { Transaction } from "./entities/transaction.entity";
 import { FinanceSeederService } from "./finance-seeder.service";
+import { FinanceService } from "./finance.service"; // 👈 Nuevo
+import { FinanceController } from "./finance.controller"; // 👈 Nuevo
 
 @Module({
-  // Importamos las tablas para poder usarlas
   imports: [TypeOrmModule.forFeature([Group, Category, Transaction])],
-  controllers: [],
-  providers: [FinanceSeederService],
+  controllers: [FinanceController], // 👈 Agregado
+  providers: [FinanceSeederService, FinanceService], // 👈 Agregado
 })
 export class FinanceModule {}
