@@ -42,6 +42,7 @@ import { join } from "path";
     // 3. Tus módulos de funcionalidad (Descomenta los que tengas)
     AuthModule,
     UsersModule,
+    FinanceModule,
   ],
   controllers: [AppController],
   providers: [],
